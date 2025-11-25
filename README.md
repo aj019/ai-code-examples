@@ -1,3 +1,9 @@
+---
+title: ai-chatbot
+app_file: chatbot-using-gradio.py
+sdk: gradio
+sdk_version: 6.0.0
+---
 # AI Examples
 
 This project demonstrates examples of different use cases of ai models and agents
