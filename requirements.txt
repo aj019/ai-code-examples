@@ -2,3 +2,4 @@ openai
 dotenv
 gradio
 pydantic
+openai-agents
