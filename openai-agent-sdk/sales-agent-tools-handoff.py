@@ -1,6 +1,15 @@
 from dotenv import load_dotenv
-from agents import Agent, Runner, trace,function_tool
+from agents import Agent, Runner, trace,function_tool, input_guardrail, GuardrailFunctionOutput
 import asyncio
+from pydantic import BaseModel
+
+class Email(BaseModel):
+    subject: str
+    body: str
+
+class NameCheckoutObject(BaseModel):
+    is_name_included: bool
+    name: str
 
 load_dotenv()
 
@@ -44,9 +53,23 @@ email_writer_agent = Agent(name="Email Writer",
 instructions=email_writer_instructions,
 model="gpt-4o-mini",
 tools=[subject_writer_tool,html_writer_tool],
-handoff_description="Convert an email to HTML"
+handoff_description="Convert an email to HTML",
+output_type=Email
 )
 # ---------------------------- End of Part 2: Email Writer Agent
+
+guardrail_agent = Agent(
+    name="Guardrail Agent",
+    instructions="Check if the user's input includes a person's full name or any proper names. Respond True if a name is detected, otherwise False.",
+    model="gpt-4o-mini",
+    output_type=NameCheckoutObject
+)
+
+@input_guardrail
+async def guardrail_agains_name(ctx, agent, message):
+    result = await Runner.run(guardrail_agent, message)
+    is_name_included = result.final_output.is_name_included
+    return GuardrailFunctionOutput(output_info={"name": result.final_output.name},tripwire_triggered=is_name_included)
 
 
 sales_manager_instructions = f"""You are a sales manager working for ComplAI. You use the tools given to you to generate cold sales emails. \
@@ -61,12 +84,13 @@ sales_manager_agent = Agent(
     instructions=sales_manager_instructions,
     model="gpt-4o-mini",
     tools=[tool1, tool2, tool3],
-    handoffs=[email_writer_agent]
+    handoffs=[email_writer_agent],
+    input_guardrails=[guardrail_agains_name]
 )
 
 
 with trace("Sales Cold Email"):
-    result = asyncio.run(Runner.run(sales_manager_agent, "Send a cold email to Anuj Gupta , Founder and CTO of AppX"))
+    result = asyncio.run(Runner.run(sales_manager_agent, "Send a cold email to Anuj CTO of AppX "))
     print(result.final_output)
 
 
