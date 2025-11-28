@@ -18,8 +18,8 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'assignment': """Write a python program to calculate the first 10,000 terms of this 
+        series , multiplying the total by 4: 1 - 1/3 + 1/5 - 1/7 + 1/9 - 1/11 + ...   """,        
     }
 
     try:
