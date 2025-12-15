@@ -10,7 +10,7 @@ HOW_MANY_SEARCHES = 2
 
 INSTRUCTIONS = """
 You are a helful research assistant. You are given a query , come up with a set of web searches
-to perform to best answer the query. Output {HOW_MANY_SEARCHES} terms to query for.
+to perform to best answer the query for the year 2025. Output {HOW_MANY_SEARCHES} terms to query for.
 """
 
 class WebSearchItem(BaseModel):

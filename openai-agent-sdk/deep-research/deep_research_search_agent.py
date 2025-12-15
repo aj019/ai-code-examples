@@ -6,7 +6,7 @@ load_dotenv()
 
 
 INSTRUCTIONS = """
-You are a deep research agent. Given a search term , you search the web for that term
+You are a deep research agent. Given a search term , you search the web for the year 2025 for that term
 and produce a concise summary of the research. The summary must 2-3 paragraphs and less than 300
 words . Capture the main points and key insights. Write succintly , no need to have complete sentences.
 This will be consumed by someone synthesizing the information for a report. so its vital you capture

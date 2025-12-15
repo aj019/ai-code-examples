@@ -93,14 +93,14 @@ email_agent = Agent(
 )
 
 
-query = "AI for freight brokers"
+query = "what are some of the research areas where voice ai agent startups are spending the most money in 2025"
 
 with trace("Deep Research Orchestrator"):
     print("Starting Deep Research Orchestrator")
     search_plan = asyncio.run(plan_searches(query))
-    # print(f"Search plan: {search_plan}")
+    print(f"Search plan: {search_plan}")
     search_results = asyncio.run(perform_searches([search_plan[0],search_plan[1]]))
-    # print(f"Search results: {search_results}")
+    print(f"Search results: {search_results}")
     report = asyncio.run(write_report(query, search_results))
     # print(f"Report: {report}")
     asyncio.run(Runner.run(email_agent, report.markdown_report))
